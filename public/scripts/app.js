@@ -23,6 +23,7 @@ var Component = function (_React$Component) {
 
     _this.handleTodoChange = _this.handleTodoChange.bind(_this);
     _this.handleFormSubmit = _this.handleFormSubmit.bind(_this);
+    _this.handleDeleteTodo = _this.handleDeleteTodo.bind(_this);
     return _this;
   }
 
@@ -37,18 +38,32 @@ var Component = function (_React$Component) {
       e.preventDefault();
       console.log(e.target[0].value);
 
-      var newTodo = this.state.todos.concat({ text: e.target[0].value });
+      var allAndNewTodo = this.state.todos.concat({ text: e.target[0].value });
 
-      this.setState({ todos: newTodo });
+      this.setState({ todos: allAndNewTodo });
+    }
+  }, {
+    key: "handleDeleteTodo",
+    value: function handleDeleteTodo(e) {
+      var todoToDelete = e.target.value;
+      this.setState(function (prevState) {
+        return {
+          todos: prevState.todos.filter(function (todo) {
+            return todo.text != todoToDelete;
+          })
+        };
+      });
     }
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _state = this.state,
           newTodoText = _state.newTodoText,
           todos = _state.todos;
 
-
+      console.log("render");
       return React.createElement(
         "div",
         null,
@@ -75,7 +90,12 @@ var Component = function (_React$Component) {
             return React.createElement(
               "li",
               { key: todo.text },
-              todo.text
+              todo.text,
+              React.createElement(
+                "button",
+                { value: todo.text, onClick: _this2.handleDeleteTodo },
+                "delete"
+              )
             );
           }) : true
         )

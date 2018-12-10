@@ -9,6 +9,7 @@ class Component extends React.Component {
 
     this.handleTodoChange = this.handleTodoChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
   }
 
   handleTodoChange(e) {
@@ -19,14 +20,21 @@ class Component extends React.Component {
     e.preventDefault();
     console.log(e.target[0].value);
 
-    const newTodo = this.state.todos.concat({ text: e.target[0].value });
+    const allAndNewTodo = this.state.todos.concat({ text: e.target[0].value });
 
-    this.setState({ todos: newTodo });
+    this.setState({ todos: allAndNewTodo });
+  }
+
+  handleDeleteTodo(e) {
+    const todoToDelete = e.target.value;
+    this.setState(prevState => ({
+      todos: prevState.todos.filter(todo => todo.text != todoToDelete)
+    }));
   }
 
   render() {
     const { newTodoText, todos } = this.state;
-
+    console.log("render");
     return (
       <div>
         <h1>Todo List</h1>
@@ -37,8 +45,15 @@ class Component extends React.Component {
         </form>
         <ol>
           {todos.length
-            ? todos.map(function(todo) {
-                return <li key={todo.text}>{todo.text}</li>;
+            ? todos.map(todo => {
+                return (
+                  <li key={todo.text}>
+                    {todo.text}
+                    <button value={todo.text} onClick={this.handleDeleteTodo}>
+                      delete
+                    </button>
+                  </li>
+                );
               })
             : true}
         </ol>
