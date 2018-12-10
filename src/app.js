@@ -5,31 +5,43 @@ class Component extends React.Component {
     this.state = {
       todos: [
         {
-          title: "teste"
-        },
-        {
-          title: "teste 2"
+          text: "teste "
         }
       ]
     };
+
+    this.handleTodoChange = this.handleTodoChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
-  handleTodo() {
-    return false;
+  handleTodoChange(e) {
+    this.setState({ todos: [{ text: e.target.value }] });
+  }
+
+  handleFormSubmit(e) {
+    e.preventDefault();
+    console.log(e.target.input.value);
+
+    const prevTodos = this.state.todos;
+
+    this.setState({
+      todos: prevTodos.push({
+        text: e.target.input.value
+      })
+    });
   }
 
   render() {
     return (
       <div>
         <h1>Todo List</h1>
-        <form>
-          <input id="item" />
+        <form onSubmit={this.handleFormSubmit}>
+          <input id="item" onChange={this.handleTodoChange} />
           <input type="submit" />
         </form>
         <ol>
-          {console.log(this.state)}
           {this.state.todos.map(function(todo) {
-            return <li>{todo.title}</li>;
+            return <li key={todo.text}>{todo.text}</li>;
           })}
         </ol>
       </div>

@@ -18,18 +18,33 @@ var Component = function (_React$Component) {
 
     _this.state = {
       todos: [{
-        title: "teste"
-      }, {
-        title: "teste 2"
+        text: "teste "
       }]
     };
+
+    _this.handleTodoChange = _this.handleTodoChange.bind(_this);
+    _this.handleFormSubmit = _this.handleFormSubmit.bind(_this);
     return _this;
   }
 
   _createClass(Component, [{
-    key: "handleTodo",
-    value: function handleTodo() {
-      return false;
+    key: "handleTodoChange",
+    value: function handleTodoChange(e) {
+      this.setState({ todos: [{ text: e.target.value }] });
+    }
+  }, {
+    key: "handleFormSubmit",
+    value: function handleFormSubmit(e) {
+      e.preventDefault();
+      console.log(e.target.input.value);
+
+      var prevTodos = this.state.todos;
+
+      this.setState({
+        todos: prevTodos.push({
+          text: e.target.input.value
+        })
+      });
     }
   }, {
     key: "render",
@@ -44,19 +59,18 @@ var Component = function (_React$Component) {
         ),
         React.createElement(
           "form",
-          null,
-          React.createElement("input", { id: "item" }),
+          { onSubmit: this.handleFormSubmit },
+          React.createElement("input", { id: "item", onChange: this.handleTodoChange }),
           React.createElement("input", { type: "submit" })
         ),
         React.createElement(
           "ol",
           null,
-          console.log(this.state),
           this.state.todos.map(function (todo) {
             return React.createElement(
               "li",
-              null,
-              todo.title
+              { key: todo.text },
+              todo.text
             );
           })
         )
@@ -67,5 +81,5 @@ var Component = function (_React$Component) {
   return Component;
 }(React.Component);
 
-var appRoot = document.getElementById("app");
-ReactDOM.render(React.createElement(Component, null), appRoot);
+var appCore = document.getElementById("app");
+ReactDOM.render(React.createElement(Component, null), appCore);
