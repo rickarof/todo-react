@@ -17,9 +17,8 @@ var Component = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Component.__proto__ || Object.getPrototypeOf(Component)).call(this, props));
 
     _this.state = {
-      todos: [{
-        text: "teste "
-      }]
+      todos: [],
+      newTodoText: ""
     };
 
     _this.handleTodoChange = _this.handleTodoChange.bind(_this);
@@ -30,25 +29,26 @@ var Component = function (_React$Component) {
   _createClass(Component, [{
     key: "handleTodoChange",
     value: function handleTodoChange(e) {
-      this.setState({ todos: [{ text: e.target.value }] });
+      this.setState({ newTodoText: e.target.value });
     }
   }, {
     key: "handleFormSubmit",
     value: function handleFormSubmit(e) {
       e.preventDefault();
-      console.log(e.target.input.value);
+      console.log(e.target[0].value);
 
-      var prevTodos = this.state.todos;
+      var newTodo = this.state.todos.concat({ text: e.target[0].value });
 
-      this.setState({
-        todos: prevTodos.push({
-          text: e.target.input.value
-        })
-      });
+      this.setState({ todos: newTodo });
     }
   }, {
     key: "render",
     value: function render() {
+      var _state = this.state,
+          newTodoText = _state.newTodoText,
+          todos = _state.todos;
+
+
       return React.createElement(
         "div",
         null,
@@ -56,6 +56,11 @@ var Component = function (_React$Component) {
           "h1",
           null,
           "Todo List"
+        ),
+        React.createElement(
+          "h2",
+          null,
+          newTodoText
         ),
         React.createElement(
           "form",
@@ -66,13 +71,13 @@ var Component = function (_React$Component) {
         React.createElement(
           "ol",
           null,
-          this.state.todos.map(function (todo) {
+          todos.length ? todos.map(function (todo) {
             return React.createElement(
               "li",
               { key: todo.text },
               todo.text
             );
-          })
+          }) : true
         )
       );
     }
@@ -81,5 +86,4 @@ var Component = function (_React$Component) {
   return Component;
 }(React.Component);
 
-var appCore = document.getElementById("app");
-ReactDOM.render(React.createElement(Component, null), appCore);
+ReactDOM.render(React.createElement(Component, null), document.getElementById("app"));

@@ -3,11 +3,8 @@ class Component extends React.Component {
     super(props);
 
     this.state = {
-      todos: [
-        {
-          text: "teste "
-        }
-      ]
+      todos: [],
+      newTodoText: ""
     };
 
     this.handleTodoChange = this.handleTodoChange.bind(this);
@@ -15,39 +12,39 @@ class Component extends React.Component {
   }
 
   handleTodoChange(e) {
-    this.setState({ todos: [{ text: e.target.value }] });
+    this.setState({ newTodoText: e.target.value });
   }
 
   handleFormSubmit(e) {
     e.preventDefault();
-    console.log(e.target.input.value);
+    console.log(e.target[0].value);
 
-    const prevTodos = this.state.todos;
+    const newTodo = this.state.todos.concat({ text: e.target[0].value });
 
-    this.setState({
-      todos: prevTodos.push({
-        text: e.target.input.value
-      })
-    });
+    this.setState({ todos: newTodo });
   }
 
   render() {
+    const { newTodoText, todos } = this.state;
+
     return (
       <div>
         <h1>Todo List</h1>
+        <h2>{newTodoText}</h2>
         <form onSubmit={this.handleFormSubmit}>
           <input id="item" onChange={this.handleTodoChange} />
           <input type="submit" />
         </form>
         <ol>
-          {this.state.todos.map(function(todo) {
-            return <li key={todo.text}>{todo.text}</li>;
-          })}
+          {todos.length
+            ? todos.map(function(todo) {
+                return <li key={todo.text}>{todo.text}</li>;
+              })
+            : true}
         </ol>
       </div>
     );
   }
 }
 
-var appCore = document.getElementById("app");
-ReactDOM.render(<Component />, appCore);
+ReactDOM.render(<Component />, document.getElementById("app"));
