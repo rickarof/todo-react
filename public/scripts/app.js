@@ -36,10 +36,8 @@ var Component = function (_React$Component) {
     key: "handleFormSubmit",
     value: function handleFormSubmit(e) {
       e.preventDefault();
-      console.log(e.target[0].value);
-
       var allAndNewTodo = this.state.todos.concat({ text: e.target[0].value });
-
+      e.target[0].value = "";
       this.setState({ todos: allAndNewTodo });
     }
   }, {
@@ -63,7 +61,6 @@ var Component = function (_React$Component) {
           newTodoText = _state.newTodoText,
           todos = _state.todos;
 
-      console.log("render");
       return React.createElement(
         "div",
         null,
@@ -76,6 +73,11 @@ var Component = function (_React$Component) {
           "h2",
           null,
           newTodoText
+        ),
+        React.createElement(
+          "h2",
+          null,
+          todos.length
         ),
         React.createElement(
           "form",

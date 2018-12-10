@@ -18,10 +18,8 @@ class Component extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    console.log(e.target[0].value);
-
     const allAndNewTodo = this.state.todos.concat({ text: e.target[0].value });
-
+    e.target[0].value = "";
     this.setState({ todos: allAndNewTodo });
   }
 
@@ -34,11 +32,11 @@ class Component extends React.Component {
 
   render() {
     const { newTodoText, todos } = this.state;
-    console.log("render");
     return (
       <div>
         <h1>Todo List</h1>
         <h2>{newTodoText}</h2>
+        <h2>{todos.length}</h2>
         <form onSubmit={this.handleFormSubmit}>
           <input id="item" onChange={this.handleTodoChange} />
           <input type="submit" />
