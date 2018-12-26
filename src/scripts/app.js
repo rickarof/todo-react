@@ -47,7 +47,7 @@ class Component extends React.Component {
                 return (
                   <li key={todo.text}>
                     {todo.text}
-                    <button value={todo.text} onClick={this.handleDeleteTodo}>
+                    <button className="ui button" value={todo.text} onClick={this.handleDeleteTodo}>
                       delete
                     </button>
                   </li>
@@ -55,6 +55,9 @@ class Component extends React.Component {
               })
             : true}
         </ol>
+        {/* <div className="ui input">
+          <input type="text" placeholder="Search..." />
+        </div> */}
       </div>
     );
   }

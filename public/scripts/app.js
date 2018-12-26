@@ -64,6 +64,7 @@ var Component = function (_React$Component) {
       return React.createElement(
         "div",
         null,
+        React.createElement("style", null),
         React.createElement(
           "h1",
           null,
@@ -95,7 +96,7 @@ var Component = function (_React$Component) {
               todo.text,
               React.createElement(
                 "button",
-                { value: todo.text, onClick: _this2.handleDeleteTodo },
+                { className: "ui button", value: todo.text, onClick: _this2.handleDeleteTodo },
                 "delete"
               )
             );
